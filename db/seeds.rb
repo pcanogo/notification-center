@@ -1,7 +1,43 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+# Create admin user
+User.create({
+    email: Faker::Internet.email,
+    f_name: Faker::Name.first_name, 
+    l_name: Faker::Name.last_name,
+    is_admin: true 
+})
+
+# Create 3 users and 3 notifications
+3.times do | i |
+    User.create({
+        email: Faker::Internet.email,
+        f_name:  Faker::Name.first_name, 
+        l_name:  Faker::Name.last_name,
+        is_admin: false 
+    })
+
+    Notification.create({
+        title: Faker::Book.title,
+        body: Faker::Lorem.sentence
+    })
+
+    # User-Notification relation per notification
+    3.times do | j |
+        ClientNotification.create({
+            user_id: j, 
+            notification_id: i, 
+            seen: false
+        })
+    end
+end
+
+# Create a cleint specific notification 
+Notification.create({
+    title: Faker::Book.title,
+    body:Faker::Lorem.sentence
+})
+
+ClientNotification.create({
+    user_id: 1,
+    notification_id: 4,
+    seen: false
+})

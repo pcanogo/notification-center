@@ -1,3 +1,13 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  namespace 'api' do
+    namespace 'v1' do
+
+      resources :notifications, path: '/admin/notifications', only: [:index, :show, :create], module: "admin" do
+          post 'clients', to: 'notifications#clients' , on: :collection
+      end
+
+      resources :notifications, only: [:index, :show, :patch ]
+
+    end
+  end
 end
