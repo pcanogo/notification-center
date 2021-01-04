@@ -4,7 +4,7 @@ Service app that allows admins to generate notifications for users and check wha
 
 ## Tech
  - Ruby on Rails 5
- - Posgresql 
+ - Posgresql 12
 ## Database Models
 
 **User:** id, email, f_name, l_name, is_admin, created_at, updated_at
@@ -25,7 +25,7 @@ returns list of all notifications.
         "body": "Body",
         "created_at": "2021-01-04T11:58:43.052Z",
         "updated_at": "2021-01-04T11:58:43.052Z"
-        } ...
+        }, 
     ]
  ```
 
@@ -59,7 +59,7 @@ Get all notifications of user.
         "title": "title",
         "body": "body",
         "date": "2021-01-04T11:58:43.052Z"
-    } ....
+    },
 ]
 ```
 ### GET: api/v1/users/:user_id/notifications/:id
@@ -72,7 +72,7 @@ Get specific notification of user.
         "title": "title",
         "body": "body",
         "date": "2021-01-04T11:58:43.052Z"
-    } ....
+    },
 ]
 ```
 ### PUT: api/v1/users/:user_id/notifications/:id
