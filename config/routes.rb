@@ -6,7 +6,9 @@ Rails.application.routes.draw do
           post 'clients', to: 'notifications#clients' , on: :collection
       end
 
-      resources :notifications, only: [:index, :show, :patch ]
+      resources :users, only: [] do
+        resources :notifications, only: [:index, :show, :update ]
+      end
 
     end
   end
