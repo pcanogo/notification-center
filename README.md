@@ -80,6 +80,7 @@ update read status of notification
 **params:** seen: *boolean*
 
 ## TODO
+- Restrict CORS
 - tests, tests, tests...
 - CI/CD
 - Authenticate User
