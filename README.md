@@ -36,7 +36,7 @@ returns list of read status of notification per user type client
 	{
 		"user_id": 1,
 		"seen": true
-	}...
+	}
 ]
 ```
 
