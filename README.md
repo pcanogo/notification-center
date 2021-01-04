@@ -6,8 +6,11 @@ Service app that allows admins to generate notifications for users and check wha
  - Ruby on Rails 5
  - Posgresql 
 ## Database Models
+
 **User:** id, email, f_name, l_name, is_admin, created_at, updated_at
+
 **Notification:** id, title, body, created_at, updated_at
+
 **ClientNotification:** id, *FK:* user_id, *FK:* notification_id, seen, created_at, updated_at
 
 
