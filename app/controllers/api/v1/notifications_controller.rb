@@ -3,6 +3,7 @@ module Api
         class NotificationsController < ApplicationController
             before_action :set_user
             before_action :set_notification, only: [:show, :update]
+            before_action :format_notification, only: [:show,]
             before_action :set_notifications, only: [:index]
 
             def index
@@ -10,12 +11,10 @@ module Api
             end
 
             def show
-                json_response(@client_notification)
+                json_response(@client_notification_formated)
             end
 
             def update
-                puts "THIS IS THE USER"
-                puts @client_notification.user_id
                 @client_notification.update(notification_params)
                 head :no_content
             end
@@ -31,32 +30,53 @@ module Api
             end
 
             def set_notification
+                @client_notification = @user.clientNotifications.
+                                            joins(:notification).
+                                            where!(user_id: params[:user_id], notification_id: params[:id]) if @user
+            end
+
+            def format_notification
                 select_string_list = [
-                    'id', 
-                    'user_id',
                     'notification_id',
+                    'user_id',
                     'seen', 
                     'notifications.title', 
                     'notifications.body',
                     'notifications.created_at'
                 ]
-                @client_notification = @user.clientNotifications.
-                                            joins(:notification).
-                                            select(select_string_list).
-                                            find_by!(id: params[:id]) if @user
+                @client_notification_formated = @client_notification.pluck(select_string_list).
+                                            map{ |id, user_id, seen, title, body, created_at| 
+                                                {
+                                                    id: id,
+                                                    user_id: user_id,
+                                                    seen: seen,
+                                                    title: title,
+                                                    body: body,
+                                                    date: created_at
+                                                }
+                                            } if @client_notification
             end
 
             def set_notifications
                 select_string_list = [
-                    'id', 
-                    'seen', 
+                    'notifications.id', 
+                    'client_notifications.seen', 
                     'notifications.title', 
                     'notifications.body',
                     'notifications.created_at'
                 ]
                 @client_notifications = @user.clientNotifications.
                                             joins(:notification).
-                                            select(select_string_list) if @user
+                                            pluck(select_string_list).
+                                            map{ |id, seen, title, body, created_at| 
+                                                {
+                                                    id: id,
+                                                    seen: seen,
+                                                    title: title,
+                                                    body: body,
+                                                    date: created_at
+                                                }
+                                            } if @user
             end
         end
     end
